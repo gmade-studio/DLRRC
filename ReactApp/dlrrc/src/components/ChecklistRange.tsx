@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import { Stack, Text, IStackTokens } from '@fluentui/react';
+import { Stack, Text, Breadcrumb, IBreadcrumbItem, IStackTokens } from '@fluentui/react';
 import PartRange from './PartRange';
+import { Card } from './Card';
 import { Part } from './types';
 
 interface IChecklistRangeProps {
@@ -37,33 +38,52 @@ export default class ChecklistRange extends Component<IChecklistRangeProps, IChe
     const { partRanges, currentScore } = this.state;
     const { totalScore, parts } = this.props;
     return (
-      <Stack tokens={checklistTokens}>
-        <Text variant="large">About</Text>
-        <Text>
-          This is a preview version of the app. All core functions are already. Features and UI will be updated later.
-        </Text>
-        <Text>
-          Notice: Part scores are summarized at the end of each part; total score is listed at the end of the app.
-        </Text>
-        {partRanges.map(partRange => {
-          const part = parts.find((part) => part.no == partRange.no) as Part;
-          return (
-            <PartRange
-              no={part.no}
-              label={part.label}
-              totalScore={part.totalScore}
-              items={part.items}
-              onPartScoreChange={this.handlePartScoreChange}
-            />
-          );
-        })}
-        <Text variant="large">
-          {`Total Score: ${currentScore} / ${totalScore}`}
-        </Text>
-      </Stack>
+      <>
+        <Breadcrumb
+          items={breadcrubmItems}
+          maxDisplayedItems={10}
+        />
+        <Stack tokens={checklistTokens}>
+          <Card>
+            <Stack>
+              <Text variant="large">About</Text>
+              <Text>
+                This is a preview version of the app. All core functions are already. Features and UI will be updated later.
+              </Text>
+              <Text>
+                Notice: Part scores are summarized at the end of each part; total score is listed at the end of the app.
+              </Text>
+            </Stack>
+          </Card>
+          {partRanges.map(partRange => {
+            const part = parts.find((part) => part.no == partRange.no) as Part;
+            return (
+              <Card>
+                <PartRange
+                  no={part.no}
+                  label={part.label}
+                  totalScore={part.totalScore}
+                  items={part.items}
+                  onPartScoreChange={this.handlePartScoreChange}
+                />
+              </Card>
+            );
+          })}
+          <Card>
+            <Text>
+              {`Total Score: ${currentScore} / ${totalScore}`}
+            </Text>
+          </Card>
+        </Stack>
+      </>
     );
   }
 }
+
+const breadcrubmItems: IBreadcrumbItem[] = [
+  { text: 'Applications', key: 'apps'},
+  { text: 'DLRRC: Deep Learning Radiomics Reproducibility Checklist', key: 'dlrrc', isCurrentItem: true },
+];
 
 const checklistTokens: IStackTokens = {
   padding: 'l2',

@@ -7,7 +7,7 @@ export const Card: FC<CardProps> = ({ children }) => {
   const cardStyle = mergeStyles({
     boxShadow: Depths.depth8,
     borderRadius: '3px',
-    position: 'relative',
+    background: 'white',
   });
 
   const cardTokens: IStackTokens = {
