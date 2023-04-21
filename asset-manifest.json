@@ -1,12 +1,13 @@
 {
   "files": {
-    "main.js": "./static/js/main.bfbe7077.js",
+    "main.js": "./static/js/main.e867fd37.js",
     "static/js/787.2d6a34a0.chunk.js": "./static/js/787.2d6a34a0.chunk.js",
+    "static/media/GmadeLogo.png": "./static/media/GmadeLogo.c1a83c6d45aa1c4bd5f3.png",
     "index.html": "./index.html",
-    "main.bfbe7077.js.map": "./static/js/main.bfbe7077.js.map",
+    "main.e867fd37.js.map": "./static/js/main.e867fd37.js.map",
     "787.2d6a34a0.chunk.js.map": "./static/js/787.2d6a34a0.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.bfbe7077.js"
+    "static/js/main.e867fd37.js"
   ]
 }
