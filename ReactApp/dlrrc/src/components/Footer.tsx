@@ -1,10 +1,10 @@
 import { Text, Link, Stack, IStackTokens } from '@fluentui/react';
 
-export default function Footer() {
+export function Footer() {
   return (
     <>
       <Stack/>
-      <Stack horizontal tokens={footerRightContentTokens}>
+      <Stack horizontal wrap tokens={footerRightContentTokens}>
         <Text>
           Powered by&nbsp;
           <Link href={gmadeStudioUrl}>Gmade Studio</Link>

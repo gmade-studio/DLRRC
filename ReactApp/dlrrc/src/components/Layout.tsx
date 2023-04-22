@@ -7,7 +7,7 @@ interface ILayoutProps {
   footer: JSX.Element;
 }
 
-const Layout: FC<ILayoutProps> = ({ header, main, footer }) => {
+export const Layout: FC<ILayoutProps> = ({ header, main, footer }) => {
   return (
     <Stack>
       <Stack horizontal verticalAlign="center" className={headerStyle} tokens={headerTokens}>
@@ -22,8 +22,6 @@ const Layout: FC<ILayoutProps> = ({ header, main, footer }) => {
     </Stack>
   );
 };
-
-export default Layout;
 
 const headerStyle = mergeStyles({
   borderBottom: '1px solid',

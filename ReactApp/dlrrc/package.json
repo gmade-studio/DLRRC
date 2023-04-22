@@ -5,6 +5,7 @@
   "homepage": "./",
   "dependencies": {
     "@fluentui/react": "^8.107.6",
+    "@fluentui/react-charting": "^5.16.20",
     "@fluentui/react-northstar": "^0.66.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",

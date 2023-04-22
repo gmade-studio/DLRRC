@@ -1,22 +1,29 @@
-﻿import { FC } from "react";
-import { Stack, IStackTokens, Depths, mergeStyles } from '@fluentui/react';
+﻿import { Component } from "react";
+import { Stack, IStackTokens, Depths, mergeStyles, IStackProps } from '@fluentui/react';
 
-type CardProps = {};
+export class Card extends Component<IStackProps> {
+  constructor(props: IStackProps) {
+    super(props);
+  }
 
-export const Card: FC<CardProps> = ({ children }) => {
-  const cardStyle = mergeStyles({
-    boxShadow: Depths.depth8,
-    borderRadius: '3px',
-    background: 'white',
-  });
+  render() {
+    const tokens = this.props.tokens == undefined ? cardTokens : this.props.tokens;
+    const className = this.props.className == undefined ? cardStyle : this.props.className;
+    return (
+      <Stack tokens={tokens} className={className} {...this.props}>
+        {this.props.children}
+      </Stack>
+    );
+  }
+}
 
-  const cardTokens: IStackTokens = {
-    padding: 's1 m',
-  };
+const cardStyle = mergeStyles({
+  boxShadow: Depths.depth8,
+  borderRadius: '3px',
+  background: 'white',
+});
 
-  return (
-    <Stack tokens={cardTokens} className={cardStyle}>
-      {children}
-    </Stack>
-  );
+const cardTokens: IStackTokens = {
+  padding: 'l1',
+  childrenGap: 'l1'
 };

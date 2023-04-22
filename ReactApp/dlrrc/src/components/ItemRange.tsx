@@ -1,6 +1,6 @@
 import { Component, Fragment, FormEvent } from 'react';
-import { Stack, Panel, Text, IconButton, ChoiceGroup, IChoiceGroupOption, IIconProps, IStackTokens, mergeStyles } from '@fluentui/react';
-import { Option } from './types';
+import { Stack, Panel, Text, IconButton, ChoiceGroup, IChoiceGroupOption, IIconProps, IStackTokens } from '@fluentui/react';
+import { Option } from '../models';
 
 interface IItemRangeProps {
   no: number;
@@ -13,15 +13,17 @@ interface IItemRangeProps {
 
 interface IItemRangeState {
   selectedKey: string | undefined;
+  isComplete: boolean;
   currentScore: number;
   isOpen: boolean;
 }
 
-export default class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
+export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
   constructor(props: IItemRangeProps) {
     super(props);
     this.state = {
       selectedKey: undefined,
+      isComplete: false,
       currentScore: 0,
       isOpen: false
     }
@@ -33,6 +35,7 @@ export default class ItemRange extends Component<IItemRangeProps, IItemRangeStat
       const newScore = this.props.options.find((opt) => opt.answer == option.key)?.score
       this.setState({
         selectedKey: option.key,
+        isComplete: true,
         currentScore: newScore as number
       });
       onItemScoreChange(no, newScore as number);
@@ -87,9 +90,6 @@ export default class ItemRange extends Component<IItemRangeProps, IItemRangeStat
             onChange={this._onChange}
             selectedKey={selectedKey}
           />
-          {/* <Text>
-            {currentScore}
-          </Text> */}
         </Stack>
       </Stack>
     );

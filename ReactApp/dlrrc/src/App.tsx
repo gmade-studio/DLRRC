@@ -1,9 +1,6 @@
-import ChecklistRange from './components/ChecklistRange';
-import Layout from './components/Layout';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { Stack, Text } from '@fluentui/react';
-import { Checklist } from './components/types';
+import { Stack } from '@fluentui/react';
+import { ChecklistRange, Layout, Header, Footer } from './components';
+import { Checklist } from './models';
 import * as dlrrc from './data/dlrrc.min.json';
 
 export function App() {

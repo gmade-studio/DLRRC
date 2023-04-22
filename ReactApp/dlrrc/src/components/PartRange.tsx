@@ -1,27 +1,37 @@
 import { Component } from 'react';
-import { Stack, Text, IStackTokens } from '@fluentui/react';
-import ItemRange from './ItemRange';
-import { Item } from './types';
+import { Text } from '@fluentui/react';
+import { ItemRange } from '.';
+import { Item } from '../models';
 
 interface IPartRangeProps {
   no: string;
   label: string;
   totalScore: number;
   items: Item[];
-  onPartScoreChange: (no: string, newValue: number) => void;
+  onPartScoreChange: (no: string, newValue: number, newCompleteCount: number) => void;
 }
 
 interface IPartRangeState {
   currentScore: number | undefined;
-  itemRanges: Array<{no: number, currentScore: number}>;
+  completedCount: number;
+  itemRanges: Array<{
+    no: number, 
+    isComplete: boolean, 
+    currentScore: number
+  }>;
 }
 
-export default class PartRange extends Component<IPartRangeProps, IPartRangeState> {
+export class PartRange extends Component<IPartRangeProps, IPartRangeState> {
   constructor(props: IPartRangeProps) {
     super(props);
     this.state = {
       currentScore: 0,
-      itemRanges: props.items.map((item) => ({no: item.no, currentScore: 0}))
+      completedCount: 0,
+      itemRanges: props.items.map((item) => ({
+        no: item.no, 
+        isComplete: false, 
+        currentScore: 0
+      }))
     };
   }
 
@@ -30,18 +40,20 @@ export default class PartRange extends Component<IPartRangeProps, IPartRangeStat
     const itemRanges = [...this.state.itemRanges];
     const index = itemRanges.findIndex(item => item.no === itemNo);
     if (index >= 0) {
+      itemRanges[index].isComplete = true;
       itemRanges[index].currentScore = newScore;
       const currentScore = itemRanges.reduce((acc, item) => acc + item.currentScore, 0);
-      this.setState({ currentScore, itemRanges });
-      onPartScoreChange(no, currentScore);
+      const completedCount = itemRanges.filter(item => item.isComplete).length;
+      this.setState({ currentScore, completedCount, itemRanges });
+      onPartScoreChange(no, currentScore, completedCount);
     }
   };
 
   render() {
-    const { itemRanges, currentScore } = this.state;
-    const { no, label, totalScore, items } = this.props;
+    const { itemRanges } = this.state;
+    const { no, label, items } = this.props;
     return (
-      <Stack tokens={partTokens}>
+      <>
         <Text variant="large">
           {`Part ${no} ${label}`}
         </Text>
@@ -58,15 +70,7 @@ export default class PartRange extends Component<IPartRangeProps, IPartRangeStat
             />
           );
         })}
-        <Text>
-          {`Part Score: ${currentScore} / ${totalScore}`}
-        </Text>
-      </Stack>
+      </>
     );
   }
 }
-
-const partTokens: IStackTokens = {
-  padding: 'm 0',
-  childrenGap: 'l1'
-};

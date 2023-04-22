@@ -1,7 +1,7 @@
 import { Text, Link, Image, Stack, ILinkStyles, IStackTokens, mergeStyles, useTheme } from '@fluentui/react';
 import logo from '../assets/GmadeLogo.png';
 
-export default function Header() {
+export function Header() {
   const theme = useTheme();
   const siteLinkStyle: ILinkStyles = {
     root: {
