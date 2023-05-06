@@ -48,7 +48,8 @@ const classNames = mergeStyleSets({
   main: {
     width: '100%',
     background: '#f2f2f2',
-    minHeight: '100vh'
+    minHeight: '100vh',
+    minWidth: '480px'
   },
   contentArea: {
     maxWidth: '960px',
