@@ -1,14 +1,14 @@
 import { Component } from 'react';
-import { Text, DefaultButton, PrimaryButton, ProgressIndicator, Stack, getTheme, mergeStyleSets, TooltipHost } from '@fluentui/react';
+import { Text, DefaultButton, PrimaryButton, ProgressIndicator, Stack, Pivot, PivotItem, getTheme, mergeStyleSets, TooltipHost } from '@fluentui/react';
 import { Card, PartRange } from '.';
 import { Part } from '../models';
 
-interface IChecklistRangeProps {
+interface IScoreRangeProps {
   totalScore: number;
   parts: Part[];
 }
 
-interface IChecklistRangeState {
+interface IScoreRangeState {
   currentScore: number | undefined;
   completedCount: number;
   partRanges: Array<{
@@ -19,8 +19,8 @@ interface IChecklistRangeState {
   currentPage: number;
 }
 
-export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRangeState> {
-  constructor(props: IChecklistRangeProps) {
+export class ScoreRange extends Component<IScoreRangeProps, IScoreRangeState> {
+  constructor(props: IScoreRangeProps) {
     super(props);
     this.state = {
       currentScore: 0,
@@ -32,6 +32,7 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
       })),
       currentPage: 0
     };
+    this.scrollToContentArea();
   }
 
   handlePartScoreChange = (no: string, newScore: number, newCompletedCount: number) => {
@@ -44,7 +45,6 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
       const completedCount = partRanges.reduce((acc, part) => acc + part.completedCount, 0);
       this.setState({ currentScore, completedCount, partRanges });
     }
-    console.log(partRanges);
   };
 
   previousPage = () => {
@@ -54,7 +54,7 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
         currentPage: currentPage - 1
       });
     }
-    this.scrollToMain();
+    this.scrollToContentArea();
   }
 
   nextPage = () => {
@@ -64,15 +64,12 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
         currentPage: currentPage + 1
       });
     }
-    this.scrollToMain();
+    this.scrollToContentArea();
   }
 
   previousPageLabel = () => {
     const { partRanges, currentPage } = this.state;
-    if (currentPage == 1) {
-      return 'Cancel';
-    }
-    else if (currentPage == partRanges.length + 1) {
+    if (currentPage == partRanges.length) {
       return 'Return';
     }
     return 'Previous'
@@ -80,17 +77,14 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
 
   nextPageLabel = () => {
     const { partRanges, currentPage } = this.state;
-    if (currentPage == 0) {
-      return 'Start';
-    }
-    else if (currentPage < partRanges.length) {
+    if (currentPage < partRanges.length - 1) {
       return 'Next';
     }
     return 'See score'
   }
 
-  scrollToMain = () => {
-    let anchorElement = document.getElementById('main');
+  scrollToContentArea = () => {
+    let anchorElement = document.getElementById('contentArea');
     if(anchorElement) { anchorElement.scrollIntoView(); }
   }
 
@@ -98,15 +92,12 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
     const { partRanges, currentPage } = this.state;
     const { parts } = this.props;
 
-    if (currentPage == 0) {
-      return false;
-    }
-    if (currentPage == parts.length + 1) {
+    if (currentPage == parts.length) {
       return false;
     }
 
-    const partRange = partRanges[currentPage - 1];
-    const part = parts[currentPage - 1];
+    const partRange = partRanges[currentPage];
+    const part = parts[currentPage];
     return partRange.completedCount < part.items.length;
   }
 
@@ -123,34 +114,20 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
 
     return (
       <>
-        { currentPage == 0 ? (
-          <Card>
-            <Text className={classNames.cardHeader}>About</Text>
-            <Text>
-              This is a preview version of the app. All core functions are already. Features and UI will be updated later.
-            </Text>
-            <Text>
-              Notice: Part scores are summarized at the end of each part; total score is listed at the end of the app.
-            </Text>
-          </Card>
-        ) : null}
-
-        { currentPage > 0 ? (
-          <TooltipHost content={toolTip}>
-            <ProgressIndicator percentComplete={completedCount / itemsCount} barHeight={20} />
-          </TooltipHost>
-        ) : null}
-       
+        <TooltipHost content={toolTip}>
+          <ProgressIndicator percentComplete={completedCount / itemsCount} barHeight={20} />
+        </TooltipHost>
+      
         { partRanges.map(partRange => {
           const partIndex = parts.findIndex((part) => part.no == partRange.no);
           const part = parts[partIndex];
           return (
-            <Card hidden={currentPage != partIndex + 1}>
+            <Card hidden={currentPage != partIndex}>
               <PartRange no={part.no} label={part.label} totalScore={part.totalScore} items={part.items} onPartScoreChange={this.handlePartScoreChange} />
             </Card>
           );
         })}
-        { (currentPage == partRanges.length + 1) ? (
+        { (currentPage == partRanges.length) ? (
           <Card>
             <Text className={classNames.cardHeader}>Score</Text>
             <ProgressIndicator
@@ -178,7 +155,7 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
               {this.previousPageLabel()}
             </DefaultButton>
           ) : <div/>}
-          { currentPage < partRanges.length + 1 ? (
+          { currentPage < partRanges.length ? (
             <PrimaryButton onClick={this.nextPage} disabled={this.isNextDisable()}>
               {this.nextPageLabel()}
             </PrimaryButton>
@@ -191,6 +168,21 @@ export class ChecklistRange extends Component<IChecklistRangeProps, IChecklistRa
 
 const theme = getTheme();
 const classNames = mergeStyleSets({
+  main: {
+    width: '100%',
+    background: '#f2f2f2',
+    minWidth: '480px'
+  },
+  contentArea: {
+    maxWidth: '960px',
+    minWidth: '480px',
+    minHeight: '100vh',
+    width: '100%'
+  },
+  pivotContainer: {
+    width: '100%',
+    backgroundColor: theme.palette.white,
+  },
   cardHeader: [
     theme.fonts.xLarge,
   ]

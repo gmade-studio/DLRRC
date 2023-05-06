@@ -23,11 +23,7 @@ export class Layout extends Component<ILayoutProps, {}> {
         <Stack className={classNames.navigation} tokens={tokens.navigation}>
           {navigation}
         </Stack>
-        <Stack id="main" horizontalAlign="center" className={classNames.main}>
-          <Stack className={classNames.contentArea} tokens={tokens.contentArea}>
-            {main}
-          </Stack>
-        </Stack>
+        {main}
         <Stack wrap={true} horizontal horizontalAlign="space-between" verticalAlign="center" className={classNames.footer} tokens={tokens.footer}>
           {footer}
         </Stack>
@@ -40,26 +36,18 @@ const classNames = mergeStyleSets({
   header: {
     borderBottom: '1px solid',
     borderBottomColor: '#e9e8e7',
+    minWidth: '480px',
   },
   navigation: {
     borderBottom: '1px solid',
     borderBottomColor: '#e9e8e7',
-  },
-  main: {
-    width: '100%',
-    background: '#f2f2f2',
-    minHeight: '100vh',
-    minWidth: '480px'
-  },
-  contentArea: {
-    maxWidth: '960px',
     minWidth: '480px',
-    width: '100%'
   },
   footer: {
     borderBottom: '1px solid',
     borderBottomColor: '#e9e8e7',
     background: '#e8e6df',
+    minWidth: '480px',
   }
 })
 

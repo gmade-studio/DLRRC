@@ -27,6 +27,9 @@ const theme = getTheme();
 const breadcrumbStyles: Partial<IBreadcrumbStyles> = {
   item: [
     theme.fonts.medium
+  ],
+  itemLink: [
+    theme.fonts.medium
   ]
 };
 

@@ -1,14 +1,11 @@
-import { ChecklistRange, Layout, Header, Navigation, Footer } from './components';
-import { Checklist } from './models';
-import * as dlrrc from './data/dlrrc.min.json';
+import { Main, Layout, Header, Navigation, Footer } from './components';
 
 export function App() {
-  const checklist: Checklist = dlrrc;
   return (
     <Layout
       header={<Header/>}
       navigation={<Navigation/>}
-      main={<ChecklistRange totalScore={checklist.totalScore} parts={checklist.parts} />}
+      main={<Main/>}
       footer={<Footer/>}
     />
   );

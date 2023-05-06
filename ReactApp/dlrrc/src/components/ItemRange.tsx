@@ -69,7 +69,7 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
             <Text className={classNames.itemHeader}>
               {label.split('\n').map((line, index) => <Fragment key={index}>{line}<br /></Fragment>)}
             </Text>
-            <Link iconProps={infoIcon} onClick={this.toggleVisibilityOfDescription} className={classNames.learnMoreButton} >
+            <Link onClick={this.toggleVisibilityOfDescription} className={classNames.learnMoreButton} >
               { isOpen ? 'Collapse' : 'Extend' } detailed description
             </Link>
             { isOpen ? (
@@ -137,7 +137,6 @@ const classNames = mergeStyleSets({
   ]
 })
 
-const infoIcon: IIconProps = { iconName: 'Lightbulb' };
 const itemRangeTokens: IStackTokens = {
   childrenGap: '5px'
 };
