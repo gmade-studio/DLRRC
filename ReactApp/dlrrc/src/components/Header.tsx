@@ -31,7 +31,7 @@ export function Header() {
       <Stack horizontal className={siteLinkBorderStyle} verticalAlign="center" tokens={siteLogoTokens}>
         <Link href={gmadeStudioAppsUrl} styles={siteLinkStyle}>
           <Text variant="large">
-            Applications
+            Apps
           </Text>
         </Link>
       </Stack>

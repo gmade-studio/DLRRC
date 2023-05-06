@@ -1,5 +1,5 @@
 import { Component, Fragment, FormEvent } from 'react';
-import { Stack, Panel, Text, IconButton, ChoiceGroup, IChoiceGroupOption, IIconProps, IStackTokens } from '@fluentui/react';
+import { Stack, Text, Link, ChoiceGroup, IChoiceGroupOption, IIconProps, IStackTokens, getTheme, mergeStyleSets } from '@fluentui/react';
 import { Option } from '../models';
 
 interface IItemRangeProps {
@@ -42,15 +42,10 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
     }
   };
 
-  private openPanel = (): void => {
+  private toggleVisibilityOfDescription = (): void => {
+    const { isOpen } = this.state;
     this.setState({
-      isOpen: true
-    });
-  }
-
-  private dismissPanel = (): void => {
-    this.setState({
-      isOpen: false
+      isOpen: !isOpen
     });
   }
     
@@ -61,50 +56,92 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
         text: option.answer
       })
     )
-    const { selectedKey, currentScore } = this.state;
+    const { selectedKey, isOpen } = this.state;
     const { no, label, description } = this.props;
 
     return (
-      <Stack tokens={itemTokens}>
-        <Stack horizontal tokens={itemHeaderTokens}>
-          <Text>
+      <Stack className={classNames.itemRange} tokens={itemRangeTokens}>
+        <Stack horizontal tokens={itemHeaderTokens} className={classNames.header}>
+          <Text className={classNames.no}>
             {no}
           </Text>
-          <Text>
-            {label.split('\n').map((line, index) => <Fragment key={index}>{line}<br /></Fragment>)}
-          </Text>
-          <IconButton iconProps={infoIcon} title="Description" onClick={this.openPanel} />
-        </Stack>
-        <Stack tokens={itemContentTokens}>
-          <Panel
-            headerText={`Description to item ${no}`}
-            isOpen={this.state.isOpen}
-            onDismiss={this.dismissPanel}
-          >
-            <Text>
-              {description}
+          <Stack>
+            <Text className={classNames.itemHeader}>
+              {label.split('\n').map((line, index) => <Fragment key={index}>{line}<br /></Fragment>)}
             </Text>
-          </Panel>
-          <ChoiceGroup
-            options={options}
-            onChange={this._onChange}
-            selectedKey={selectedKey}
-          />
+            <Link iconProps={infoIcon} onClick={this.toggleVisibilityOfDescription} className={classNames.learnMoreButton} >
+              { isOpen ? 'Collapse' : 'Extend' } detailed description
+            </Link>
+            { isOpen ? (
+              <Text className={classNames.description}>
+                {description}
+              </Text>
+            ) : null}
+          </Stack>
         </Stack>
+        <ChoiceGroup options={options} onChange={this._onChange} selectedKey={selectedKey} className={classNames.choiceGroup} />
       </Stack>
     );
   }
 }
 
+const theme = getTheme();
+const classNames = mergeStyleSets({
+  itemRange: {
+    borderBottomColor: theme.palette.neutralLighter,
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    paddingBottom: '15px'
+  },
+  header: {
+    background: theme.palette.neutralLighterAlt,
+    padding: '15px 10px',
+    borderTopColor: theme.palette.neutralQuaternary,
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    borderBottomColor: theme.palette.neutralQuaternary,
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid'
+  },
+  no: [
+    theme.fonts.medium,
+    {
+      maxWidth: '20px',
+      minWidth: '20px',
+      fontWeight: 'bold'
+    }
+  ],
+  itemHeader: [
+    theme.fonts.medium,
+    {
+      fontWeight: 'bold'
+    }
+  ],
+  learnMoreButton: [
+    theme.fonts.small,
+    {
+      marginTop: '5px'
+    }
+  ],
+  description: [
+    theme.fonts.small,
+    {
+      marginTop: '5px',
+      maxWidth: '700px'
+    }
+  ],
+  choiceGroup: [
+    {
+      marginLeft: '50px'
+    }
+  ]
+})
+
 const infoIcon: IIconProps = { iconName: 'Lightbulb' };
-const itemTokens: IStackTokens = {
-  childrenGap: 's2'
+const itemRangeTokens: IStackTokens = {
+  childrenGap: '5px'
 };
 const itemHeaderTokens: IStackTokens = {
   childrenGap: 's1',
   padding: '0 s2'
-};
-const itemContentTokens: IStackTokens = {
-  childrenGap: 's1',
-  padding: '0 l2'
 };

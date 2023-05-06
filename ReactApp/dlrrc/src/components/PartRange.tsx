@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Text } from '@fluentui/react';
+import { Text, getTheme, mergeStyleSets } from '@fluentui/react';
 import { ItemRange } from '.';
 import { Item } from '../models';
 
@@ -54,7 +54,7 @@ export class PartRange extends Component<IPartRangeProps, IPartRangeState> {
     const { no, label, items } = this.props;
     return (
       <>
-        <Text variant="large">
+        <Text className={classNames.cardHeader}>
           {`Part ${no} ${label}`}
         </Text>
         {itemRanges.map(itemRange => {
@@ -74,3 +74,10 @@ export class PartRange extends Component<IPartRangeProps, IPartRangeState> {
     );
   }
 }
+
+const theme = getTheme();
+const classNames = mergeStyleSets({
+  cardHeader: [
+    theme.fonts.xLarge,
+  ],
+});
