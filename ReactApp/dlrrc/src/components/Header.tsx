@@ -11,7 +11,7 @@ export class Header extends Component<{}, {}> {
         </Link>
         <Stack horizontal className={siteLinkBorderStyle} verticalAlign="center" tokens={siteLogoTokens}>
           <Link href={gmadeStudioAppsUrl} styles={siteLinkStyle}>
-            <Text variant="large">
+            <Text className={siteLinkTextStyle}>
               Apps
             </Text>
           </Link>
@@ -29,6 +29,14 @@ const siteLogoTokens: IStackTokens = {
 };
 
 const theme = getTheme();
+
+const siteLinkTextStyle = mergeStyles([
+  theme.fonts.large,
+  {
+    fontWeight: 600,
+    color: theme.palette.neutralSecondaryAlt
+  }
+]);
 
 const siteLinkStyle: ILinkStyles = {
   root: {
