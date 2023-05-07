@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Breadcrumb, IBreadcrumbItem, IBreadcrumbStyles, IDividerAsProps, getTheme, mergeStyleSets } from '@fluentui/react';
 
 export class Navigation extends Component {
-  render() {
+  public render(): JSX.Element {
     return (
       <Breadcrumb items={breadcrubmItems} className={classNames.breadcrubm} styles={breadcrumbStyles} dividerAs={this._getCustomDivider} />
     );

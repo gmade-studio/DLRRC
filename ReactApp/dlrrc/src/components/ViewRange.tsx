@@ -8,17 +8,7 @@ interface IViewRangeProps {
 }
 
 export class ViewRange extends Component<IViewRangeProps> {
-  constructor(props: IViewRangeProps) {
-    super(props);
-    this.scrollToContentArea();
-  }
-
-  scrollToContentArea = () => {
-    let anchorElement = document.getElementById('contentArea');
-    if(anchorElement) { anchorElement.scrollIntoView(); }
-  }
-
-  render() {
+  public render(): JSX.Element {
     const { parts } = this.props;
 
     return (

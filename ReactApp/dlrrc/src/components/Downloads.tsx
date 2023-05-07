@@ -1,13 +1,13 @@
 import { Component } from 'react';
 import {
-  DocumentCard, DocumentCardActions, DocumentCardActivity, DocumentCardDetails, DocumentCardPreview, DocumentCardTitle, 
+  DocumentCard, DocumentCardActivity, DocumentCardDetails, DocumentCardPreview, DocumentCardTitle, 
   IDocumentCardPreviewProps, DocumentCardType, IDocumentCardActivityPerson,
   Stack, IStackTokens, Text, getTheme, mergeStyleSets
 } from '@fluentui/react';
 import { Card } from '.';
 
 export class Downloads extends Component {
-  render() {
+  public render(): JSX.Element {
     return (
       <Card>
         <Text className={classNames.cardHeader}>Downloads</Text>

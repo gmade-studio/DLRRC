@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Text, DefaultButton, PrimaryButton, ProgressIndicator, Stack, Pivot, PivotItem, getTheme, mergeStyleSets, TooltipHost } from '@fluentui/react';
+import { Text, DefaultButton, PrimaryButton, ProgressIndicator, Stack, TooltipHost, getTheme, mergeStyleSets } from '@fluentui/react';
 import { Card, PartRange } from '.';
 import { Part } from '../models';
 
@@ -32,76 +32,10 @@ export class ScoreRange extends Component<IScoreRangeProps, IScoreRangeState> {
       })),
       currentPage: 0
     };
-    this.scrollToContentArea();
+    this._scrollToMain();
   }
 
-  handlePartScoreChange = (no: string, newScore: number, newCompletedCount: number) => {
-    const partRanges = [...this.state.partRanges];
-    const index = partRanges.findIndex(part => part.no === no);
-    if (index >= 0) {
-      partRanges[index].currentScore = newScore;
-      partRanges[index].completedCount = newCompletedCount;
-      const currentScore = partRanges.reduce((acc, part) => acc + part.currentScore, 0);
-      const completedCount = partRanges.reduce((acc, part) => acc + part.completedCount, 0);
-      this.setState({ currentScore, completedCount, partRanges });
-    }
-  };
-
-  previousPage = () => {
-    const { currentPage } = this.state;
-    if (currentPage > 0) {
-      this.setState({
-        currentPage: currentPage - 1
-      });
-    }
-    this.scrollToContentArea();
-  }
-
-  nextPage = () => {
-    const { partRanges, currentPage } = this.state;
-    if (currentPage < partRanges.length + 1) {
-      this.setState({
-        currentPage: currentPage + 1
-      });
-    }
-    this.scrollToContentArea();
-  }
-
-  previousPageLabel = () => {
-    const { partRanges, currentPage } = this.state;
-    if (currentPage == partRanges.length) {
-      return 'Return';
-    }
-    return 'Previous'
-  }
-
-  nextPageLabel = () => {
-    const { partRanges, currentPage } = this.state;
-    if (currentPage < partRanges.length - 1) {
-      return 'Next';
-    }
-    return 'See score'
-  }
-
-  scrollToContentArea = () => {
-    let anchorElement = document.getElementById('contentArea');
-    if(anchorElement) { anchorElement.scrollIntoView(); }
-  }
-
-  isNextDisable = () => {
-    const { partRanges, currentPage } = this.state;
-    const { parts } = this.props;
-
-    if (currentPage == parts.length) {
-      return false;
-    }
-
-    const partRange = partRanges[currentPage];
-    const part = parts[currentPage];
-    return partRange.completedCount < part.items.length;
-  }
-
-  render() {
+  public render(): JSX.Element {
     const { partRanges, currentScore, completedCount, currentPage } = this.state;
     const { totalScore, parts } = this.props;
     const itemsCount = parts.reduce((acc, part) => acc + part.items.length, 0);
@@ -114,16 +48,18 @@ export class ScoreRange extends Component<IScoreRangeProps, IScoreRangeState> {
 
     return (
       <>
-        <TooltipHost content={toolTip}>
-          <ProgressIndicator percentComplete={completedCount / itemsCount} barHeight={20} />
-        </TooltipHost>
+        { currentPage < partRanges.length ? (
+          <TooltipHost content={toolTip}>
+            <ProgressIndicator percentComplete={completedCount / itemsCount} barHeight={20} />
+          </TooltipHost>
+        ) : null }
       
         { partRanges.map(partRange => {
           const partIndex = parts.findIndex((part) => part.no == partRange.no);
           const part = parts[partIndex];
           return (
             <Card hidden={currentPage != partIndex}>
-              <PartRange no={part.no} label={part.label} totalScore={part.totalScore} items={part.items} onPartScoreChange={this.handlePartScoreChange} />
+              <PartRange no={part.no} label={part.label} totalScore={part.totalScore} items={part.items} onPartScoreChange={this._handlePartScoreChange} />
             </Card>
           );
         })}
@@ -151,38 +87,89 @@ export class ScoreRange extends Component<IScoreRangeProps, IScoreRangeState> {
         ) : null}
         <Stack horizontal horizontalAlign="space-between">
           { currentPage > 0 ? (
-            <DefaultButton onClick={this.previousPage}>
-              {this.previousPageLabel()}
+            <DefaultButton onClick={this._previousPage}>
+              {this._previousPageLabel()}
             </DefaultButton>
           ) : <div/>}
           { currentPage < partRanges.length ? (
-            <PrimaryButton onClick={this.nextPage} disabled={this.isNextDisable()}>
-              {this.nextPageLabel()}
+            <PrimaryButton onClick={this._nextPage} disabled={this._isNextDisable()}>
+              {this._nextPageLabel()}
             </PrimaryButton>
           ) : <div/>}
         </Stack>
       </>
     );
   }
+
+  private _handlePartScoreChange = (no: string, newScore: number, newCompletedCount: number) => {
+    const partRanges = [...this.state.partRanges];
+    const index = partRanges.findIndex(part => part.no === no);
+    if (index >= 0) {
+      partRanges[index].currentScore = newScore;
+      partRanges[index].completedCount = newCompletedCount;
+      const currentScore = partRanges.reduce((acc, part) => acc + part.currentScore, 0);
+      const completedCount = partRanges.reduce((acc, part) => acc + part.completedCount, 0);
+      this.setState({ currentScore, completedCount, partRanges });
+    }
+  };
+
+  private _previousPage = () => {
+    const { currentPage } = this.state;
+    if (currentPage > 0) {
+      this.setState({
+        currentPage: currentPage - 1
+      });
+    }
+    this._scrollToMain();
+  }
+
+  private _nextPage = () => {
+    const { partRanges, currentPage } = this.state;
+    if (currentPage < partRanges.length + 1) {
+      this.setState({
+        currentPage: currentPage + 1
+      });
+    }
+    this._scrollToMain();
+  }
+
+  private _isNextDisable = () => {
+    const { partRanges, currentPage } = this.state;
+    const { parts } = this.props;
+
+    if (currentPage == parts.length) {
+      return false;
+    }
+
+    const partRange = partRanges[currentPage];
+    const part = parts[currentPage];
+    return partRange.completedCount < part.items.length;
+  }
+
+  private _previousPageLabel = () => {
+    const { partRanges, currentPage } = this.state;
+    if (currentPage == partRanges.length) {
+      return 'Return';
+    }
+    return 'Previous'
+  }
+
+  private _nextPageLabel = () => {
+    const { partRanges, currentPage } = this.state;
+    if (currentPage < partRanges.length - 1) {
+      return 'Next';
+    }
+    return 'See score'
+  }
+
+  private _scrollToMain = () => {
+    let anchorElement = document.getElementById('main');
+    if(anchorElement) { anchorElement.scrollIntoView(); }
+  }
 }
 
 const theme = getTheme();
 const classNames = mergeStyleSets({
-  main: {
-    width: '100%',
-    background: '#f2f2f2',
-    minWidth: '480px'
-  },
-  contentArea: {
-    maxWidth: '960px',
-    minWidth: '480px',
-    minHeight: '100vh',
-    width: '100%'
-  },
-  pivotContainer: {
-    width: '100%',
-    backgroundColor: theme.palette.white,
-  },
   cardHeader: [
     theme.fonts.xLarge,
   ]

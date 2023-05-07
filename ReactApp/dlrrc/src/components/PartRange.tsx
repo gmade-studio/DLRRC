@@ -35,21 +35,7 @@ export class PartRange extends Component<IPartRangeProps, IPartRangeState> {
     };
   }
 
-  handleItemScoreChange = (itemNo: number, newScore: number) => {
-    const { no, onPartScoreChange } = this.props;
-    const itemRanges = [...this.state.itemRanges];
-    const index = itemRanges.findIndex(item => item.no === itemNo);
-    if (index >= 0) {
-      itemRanges[index].isComplete = true;
-      itemRanges[index].currentScore = newScore;
-      const currentScore = itemRanges.reduce((acc, item) => acc + item.currentScore, 0);
-      const completedCount = itemRanges.filter(item => item.isComplete).length;
-      this.setState({ currentScore, completedCount, itemRanges });
-      onPartScoreChange(no, currentScore, completedCount);
-    }
-  };
-
-  render() {
+  public render(): JSX.Element {
     const { itemRanges } = this.state;
     const { no, label, items } = this.props;
     return (
@@ -66,13 +52,27 @@ export class PartRange extends Component<IPartRangeProps, IPartRangeState> {
               description={item.description}
               totalScore={item.totalScore}
               options={item.options}
-              onItemScoreChange={this.handleItemScoreChange}
+              onItemScoreChange={this._handleItemScoreChange}
             />
           );
         })}
       </>
     );
   }
+
+  private _handleItemScoreChange = (itemNo: number, newScore: number) => {
+    const { no, onPartScoreChange } = this.props;
+    const itemRanges = [...this.state.itemRanges];
+    const index = itemRanges.findIndex(item => item.no === itemNo);
+    if (index >= 0) {
+      itemRanges[index].isComplete = true;
+      itemRanges[index].currentScore = newScore;
+      const currentScore = itemRanges.reduce((acc, item) => acc + item.currentScore, 0);
+      const completedCount = itemRanges.filter(item => item.isComplete).length;
+      this.setState({ currentScore, completedCount, itemRanges });
+      onPartScoreChange(no, currentScore, completedCount);
+    }
+  };
 }
 
 const theme = getTheme();

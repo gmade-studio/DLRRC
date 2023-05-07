@@ -1,5 +1,5 @@
 import { Component, Fragment, FormEvent } from 'react';
-import { Stack, Text, Link, ChoiceGroup, IChoiceGroupOption, IIconProps, IStackTokens, getTheme, mergeStyleSets } from '@fluentui/react';
+import { Stack, Text, Link, ChoiceGroup, IChoiceGroupOption, IStackTokens, getTheme, mergeStyleSets } from '@fluentui/react';
 import { Option } from '../models';
 
 interface IItemRangeProps {
@@ -28,26 +28,6 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
       isOpen: false
     }
   }
-  
-  private _onChange = (_?: FormEvent<HTMLElement | HTMLInputElement> | undefined, option?: IChoiceGroupOption): void => {
-    const { no, onItemScoreChange } = this.props;
-    if (option) {
-      const newScore = this.props.options.find((opt) => opt.answer == option.key)?.score
-      this.setState({
-        selectedKey: option.key,
-        isComplete: true,
-        currentScore: newScore as number
-      });
-      onItemScoreChange(no, newScore as number);
-    }
-  };
-
-  private toggleVisibilityOfDescription = (): void => {
-    const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen
-    });
-  }
     
   public render(): JSX.Element {
     const options = this.props.options.map(
@@ -69,7 +49,7 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
             <Text className={classNames.itemHeader}>
               {label.split('\n').map((line, index) => <Fragment key={index}>{line}<br /></Fragment>)}
             </Text>
-            <Link onClick={this.toggleVisibilityOfDescription} className={classNames.learnMoreButton} >
+            <Link onClick={this._toggleVisibilityOfDescription} className={classNames.learnMoreButton} >
               { isOpen ? 'Collapse' : 'Extend' } detailed description
             </Link>
             { isOpen ? (
@@ -79,9 +59,29 @@ export class ItemRange extends Component<IItemRangeProps, IItemRangeState> {
             ) : null}
           </Stack>
         </Stack>
-        <ChoiceGroup options={options} onChange={this._onChange} selectedKey={selectedKey} className={classNames.choiceGroup} />
+        <ChoiceGroup options={options} onChange={this._onOptionsChange} selectedKey={selectedKey} className={classNames.choiceGroup} />
       </Stack>
     );
+  }
+  
+  private _onOptionsChange = (_?: FormEvent<HTMLElement | HTMLInputElement> | undefined, option?: IChoiceGroupOption): void => {
+    const { no, onItemScoreChange } = this.props;
+    if (option) {
+      const newScore = this.props.options.find((opt) => opt.answer == option.key)?.score
+      this.setState({
+        selectedKey: option.key,
+        isComplete: true,
+        currentScore: newScore as number
+      });
+      onItemScoreChange(no, newScore as number);
+    }
+  };
+
+  private _toggleVisibilityOfDescription = (): void => {
+    const { isOpen } = this.state;
+    this.setState({
+      isOpen: !isOpen
+    });
   }
 }
 

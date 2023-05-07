@@ -3,7 +3,7 @@ import { Text, getTheme, mergeStyleSets } from '@fluentui/react';
 import { Card } from '.';
 
 export class About extends Component {
-  render() {
+  public render(): JSX.Element {
     return (
       <Card>
         <Text className={classNames.cardHeader}>About</Text>

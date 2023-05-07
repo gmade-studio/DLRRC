@@ -13,7 +13,7 @@ export class Layout extends Component<ILayoutProps, {}> {
     super(props);
   }
 
-  render() {
+  public render(): JSX.Element {
     const { header, navigation, main, footer } = this.props;
     return (
       <Stack>

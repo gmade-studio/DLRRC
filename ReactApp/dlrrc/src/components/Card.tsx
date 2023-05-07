@@ -1,5 +1,5 @@
 ﻿import { Component } from "react";
-import { Stack, IStackProps, IStackTokens, Depths, getTheme, mergeStyles  } from '@fluentui/react';
+import { Stack, IStackProps, IStackTokens, Depths, getTheme, mergeStyleSets  } from '@fluentui/react';
 
 interface ICardProps extends IStackProps {
   hidden?: boolean
@@ -8,11 +8,11 @@ interface ICardProps extends IStackProps {
 export class Card extends Component<ICardProps> {
   static hidden: false;
 
-  render() {
+  public render(): JSX.Element {
     const tokens = this.props.tokens == undefined ? cardTokens : this.props.tokens;
-    const className = this.props.className == undefined ? cardStyle : this.props.className;
+    const className = this.props.className == undefined ? classNames.card : this.props.className;
     return (
-      <Stack tokens={tokens} className={`${className} ${this.props.hidden ? hiddenCard : ''}`} {...this.props}>
+      <Stack tokens={tokens} className={`${className} ${this.props.hidden ? classNames.hiddenCard : ''}`} {...this.props}>
         {this.props.children}
       </Stack>
     );
@@ -21,14 +21,15 @@ export class Card extends Component<ICardProps> {
 
 const theme = getTheme();
 
-const cardStyle = mergeStyles({
-  boxShadow: Depths.depth8,
-  borderRadius: '3px',
-  background: theme.palette.white
-});
-
-const hiddenCard = mergeStyles( {
-  display: 'none'
+const classNames = mergeStyleSets({
+  card: {
+    boxShadow: Depths.depth8,
+    borderRadius: '3px',
+    background: theme.palette.white
+  },
+  hiddenCard: {
+    display: 'none'
+  }
 })
 
 const cardTokens: IStackTokens = {

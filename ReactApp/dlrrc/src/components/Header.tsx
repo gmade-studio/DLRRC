@@ -2,8 +2,8 @@ import { Component } from 'react';
 import { Text, Link, Image, Stack, ILinkStyles, IStackTokens, mergeStyles, getTheme } from '@fluentui/react';
 import logo from '../assets/GmadeLogo.png';
 
-export class Header extends Component<{}, {}> {
-  render() {
+export class Header extends Component {
+  public render(): JSX.Element {
     return (
       <>
         <Link href={gmadeStudioUrl}>
@@ -34,7 +34,7 @@ const siteLinkTextStyle = mergeStyles([
   theme.fonts.large,
   {
     fontWeight: 600,
-    color: theme.palette.neutralSecondaryAlt
+    color: theme.palette.neutralPrimaryAlt
   }
 ]);
 
