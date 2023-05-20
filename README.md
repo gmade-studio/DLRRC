@@ -14,6 +14,4 @@ The fulltext of our preprint can be download at [SSRN](https://ssrn.com/abstract
 
 ## Please cite as
 
-```
-Zuo, T., He, L., Lin, Z., Chen, J., & Li, N. (2023). Reconsideration Reproducibility of Currently Deep Learning-Based Radiomics: Taking Renal Cell Carcinoma as an Example (SSRN Scholarly Paper No. 4435866). [https://doi.org/10.2139/ssrn.4435866](https://doi.org/10.2139/ssrn.4435866)
-```
+> Zuo, T., He, L., Lin, Z., Chen, J., & Li, N. (2023). Reconsideration Reproducibility of Currently Deep Learning-Based Radiomics: Taking Renal Cell Carcinoma as an Example (SSRN Scholarly Paper No. 4435866). [https://doi.org/10.2139/ssrn.4435866](https://doi.org/10.2139/ssrn.4435866)
