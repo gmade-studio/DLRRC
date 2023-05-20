@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Stack, mergeStyleSets } from '@fluentui/react';
+import { Stack, getTheme, mergeStyleSets } from '@fluentui/react';
 
 interface ILayoutProps {
   header: JSX.Element;
@@ -17,53 +17,80 @@ export class Layout extends Component<ILayoutProps, {}> {
     const { header, navigation, main, footer } = this.props;
     return (
       <Stack>
-        <Stack horizontal verticalAlign="center" className={classNames.header} tokens={tokens.header}>
-          {header}
+        <Stack horizontal horizontalAlign="center" verticalAlign="center" className={classNames.headerWrapper} tokens={tokens.headerWrapper}>
+          <Stack horizontal verticalAlign="center" className={classNames.header} tokens={tokens.header}>
+            {header}
+          </Stack>
         </Stack>
-        <Stack className={classNames.navigation} tokens={tokens.navigation}>
-          {navigation}
+        <Stack horizontalAlign="center" verticalAlign="center" className={classNames.navigationWrapper} tokens={tokens.navigationWrapper}>
+          <Stack verticalAlign="center" className={classNames.navigation}>
+            {navigation}
+          </Stack>
         </Stack>
         {main}
-        <Stack wrap={true} horizontal horizontalAlign="space-between" verticalAlign="center" className={classNames.footer} tokens={tokens.footer}>
-          {footer}
+        <Stack wrap={true} horizontal horizontalAlign="center" verticalAlign="center" className={classNames.footerWrapper} tokens={tokens.footerWrapper}>
+          <Stack horizontal horizontalAlign="space-between" verticalAlign="center" className={classNames.footer} tokens={tokens.footer}>
+            {footer}
+          </Stack>
         </Stack>
       </Stack>
     );
   }
 }
 
+const theme = getTheme();
+
 const classNames = mergeStyleSets({
-  header: {
+  headerWrapper: {
     borderBottom: '1px solid',
-    borderBottomColor: '#e9e8e7',
+    borderBottomColor: theme.palette.neutralQuaternaryAlt,
+    minWidth: '480px',
+  },
+  header: {
+    width: '100%',
+    maxWidth: '1768px',
+  },
+  navigationWrapper: {
+    borderBottom: '1px solid',
+    borderBottomColor: theme.palette.neutralQuaternaryAlt,
     minWidth: '480px',
   },
   navigation: {
-    borderBottom: '1px solid',
-    borderBottomColor: '#e9e8e7',
+    width: '100%',
+    maxWidth: '1768px',
+  },
+  footerWrapper: {
+    borderTop: '1px solid',
+    borderTopColor: theme.palette.neutralQuaternaryAlt,
+    background: theme.palette.neutralLight,
     minWidth: '480px',
   },
   footer: {
-    borderBottom: '1px solid',
-    borderBottomColor: '#e9e8e7',
-    background: '#e8e6df',
-    minWidth: '480px',
+    width: '100%',
+    maxWidth: '1768px',
   }
 })
 
 const tokens = {
+  headerWrapper: {
+    padding: '12px 0', 
+  },
   header: {
-    padding: '12px m', 
+    padding: '0 s1',
     childrenGap: 'l1',
   },
-  navigation: {
-    padding: 's2 s1',
+  navigationWrapper: {
+    padding: 's1 0',
   },
   contentArea: {
     padding: '24px',
     childrenGap: 'l1'
   },
-  footer: {
+  footerWrapper: {
     padding: 'l2',
-  }
+  },
+  footer: {
+    padding: '0 s1',
+    childrenGap: 'l1',
+  },
 }

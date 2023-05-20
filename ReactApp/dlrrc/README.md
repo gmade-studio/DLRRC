@@ -1,12 +1,34 @@
-# Getting Started with Create React App and Fluent UI
+# DLRRC: Deep Learning Radiomics Reproducibility Checklist
+
+## About the App
+
+### Background
+
+Computer science and hardware have developed prominently in this decade, advancing Artificial Intelligence and Deep Learning applications in translational medicine. As an icon, DL-radiomics research mushrooms and solves several traditional radiological challenges. Behind the glory of DL-radiomics successful performance, there is limited attention to the neglected reproducibility of existing reports, which runs contrary to radiomics original intention, to realize unexperienced-dependent radiological processing with high robustness and generalization. Besides focusing on objective causes of reproduction barriers, deep-seated factors, between contemporary academic evaluation systems and scientific research, should also be mentioned.
+
+Hence, there is an urgent need for a targeted inspection to promote this area's healthy development. Considering this, we propose a reproducibility specification checklist.
+
+### Learn more
+
+We also take Renal cell carcinoma, one of the common genitourinary cancers, as an example to glimpse the reproducibility defects in the whole DL-radiomics field. Specifically, we analyse the performance of existing DL-radiomics reports in RCC. The results show a trend of increasing reproducibility but still a need to further improve, especially in technological details of pre-processing, training, validation, and testing.
+
+The fulltext of our preprint can be download at [SSRN](https://ssrn.com/abstract=4435866) and [ResearchGate](https://www.researchgate.net/publication/370716277_Reconsideration_Reproducibility_of_Currently_Deep_Learning-Based_Radiomics_Taking_Renal_Cell_Carcinoma_as_an_Example).
+
+### Please cite as
+
+```
+Zuo, T., He, L., Lin, Z., Chen, J., & Li, N. (2023). Reconsideration Reproducibility of Currently Deep Learning-Based Radiomics: Taking Renal Cell Carcinoma as an Example (SSRN Scholarly Paper No. 4435866). [https://doi.org/10.2139/ssrn.4435866](https://doi.org/10.2139/ssrn.4435866)
+```
+
+## Getting Started with Create React App and Fluent UI
 
 This is a [Create React App](https://github.com/facebook/create-react-app) based repo that comes with Fluent UI pre-installed!
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+#### `npm start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,12 +36,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+#### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+#### `npm run build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,7 +51,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+#### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -39,13 +61,13 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

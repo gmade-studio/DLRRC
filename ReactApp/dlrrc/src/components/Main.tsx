@@ -21,8 +21,8 @@ export class Main extends Component<{}, IMainState> {
     const checklist: Checklist = dlrrc
     return (
       <Stack id="main" horizontalAlign="center" className={classNames.main}>
-        <Stack horizontal className={classNames.pivotContainer} tokens={tokens.pivotContainer}>
-          <Pivot selectedKey={selectedKey} onLinkClick={this._handleLinkClick} headersOnly={true}>
+        <Stack horizontal horizontalAlign="center" className={classNames.pivotWrapper} tokens={tokens.pivotWrapper}>
+          <Pivot className={classNames.pivot} selectedKey={selectedKey} onLinkClick={this._handleLinkClick} headersOnly={true}>
             <PivotItem headerText="About DLRRC" itemKey="aboutDlrrc"/>
             <PivotItem headerText="View DLRRC" itemKey="viewDlrrc"/>
             <PivotItem headerText="Score a report" itemKey="scoreAReport"/>
@@ -76,9 +76,15 @@ const classNames = mergeStyleSets({
     minWidth: '480px',
     width: '100%'
   },
-  pivotContainer: {
+  pivotWrapper: {
     width: '100%',
     backgroundColor: theme.palette.white,
+    borderBottom: '1px solid',
+    borderBottomColor: theme.palette.neutralQuaternaryAlt,
+  },
+  pivot: {
+    width: '100%',
+    maxWidth: '1768px',
   },
   hidden: {
     display: 'none'
@@ -86,7 +92,7 @@ const classNames = mergeStyleSets({
 });
 
 const tokens = {
-  pivotContainer: {
+  pivotWrapper: {
     padding: 's2 s1',
   },
   contentArea: {

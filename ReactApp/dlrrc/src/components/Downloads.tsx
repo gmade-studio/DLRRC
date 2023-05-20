@@ -12,14 +12,14 @@ export class Downloads extends Component {
       <Card>
         <Text className={classNames.cardHeader}>Downloads</Text>
         <Stack tokens={documentsTokens}>
-          <DocumentCard type={DocumentCardType.compact} className={classNames.documentCard}>
+          <DocumentCard onClickHref={urls.excel} type={DocumentCardType.compact} className={classNames.documentCard}>
             <DocumentCardPreview {...previewExcelUsingIcon} />
             <DocumentCardDetails>
               <DocumentCardTitle title="Deep Learning Radiomics Reproducibility Checklist (Excel Workbook)" shouldTruncate />
               <DocumentCardActivity activity="Last modified April 20, 2023, 2:43:16 AM" people={people} />
             </DocumentCardDetails>
           </DocumentCard>
-          <DocumentCard type={DocumentCardType.compact} className={classNames.documentCard}>
+          <DocumentCard onClickHref={urls.word} type={DocumentCardType.compact} className={classNames.documentCard}>
             <DocumentCardPreview {...previewWordUsingIcon} />
             <DocumentCardDetails>
               <DocumentCardTitle title="Deep Learning Radiomics Reproducibility Checklist (Word Document)" shouldTruncate />
@@ -30,6 +30,11 @@ export class Downloads extends Component {
       </Card>
     );
   }
+}
+
+const urls = {
+  excel: './attachments/DLRRC.xlsx',
+  word: './attachments/DLRRC.docx'
 }
 
 const people: IDocumentCardActivityPerson[] = [
